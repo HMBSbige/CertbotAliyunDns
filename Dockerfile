@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/dotnet/runtime-deps:6.0-alpine-amd64 AS base
+FROM mcr.microsoft.com/dotnet/runtime-deps:7.0-alpine-amd64 AS base
 RUN apk --no-cache upgrade && \
     apk add --no-cache --virtual=run-deps \
       certbot \
