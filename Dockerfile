@@ -4,7 +4,7 @@ RUN apk --no-cache upgrade && \
       certbot \
       bash
 
-FROM mcr.microsoft.com/dotnet/sdk:6.0-alpine-amd64 AS build
+FROM mcr.microsoft.com/dotnet/sdk:7.0-alpine-amd64 AS build
 COPY ./ /src/
 WORKDIR /src/CertbotAliyunDns/
 RUN dotnet publish "CertbotAliyunDns.csproj" -p:PublishSingleFile=true -r linux-musl-x64 --self-contained true -p:PublishTrimmed=True -c Release -o /app/publish
