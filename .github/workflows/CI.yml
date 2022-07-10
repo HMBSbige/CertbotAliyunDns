@@ -1,5 +1,5 @@
 name: CI
-on: [push, pull_request]
+on: [push, pull_request, workflow_dispatch]
 env:
   ProjectName: CertbotAliyunDns
 
@@ -9,18 +9,29 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        rid: [win-x64, win-x86, win-arm, win-arm64, win10-x64, win10-x86, win10-arm, win10-arm64, linux-x64, linux-musl-x64, linux-arm, linux-arm64, osx-x64, osx.11.0-x64]
+        rid: 
+          - win-x64
+          - win-arm64
+          - win-x86
+          - linux-x64
+          - linux-musl-x64
+          - linux-arm64
+          - linux-musl-arm64
+          - linux-arm
+          - linux-musl-arm
+          - osx-x64
+          - osx-arm64
     env:
-      NET_TFM: net5.0
+      NET_TFM: net6.0
       Configuration: Release
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
 
     - name: Setup .NET
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: 5.0.x
+        dotnet-version: 6.0.x
 
     - name: Build .NET App
       shell: pwsh
@@ -28,7 +39,7 @@ jobs:
 
     - name: Upload .NET App
       continue-on-error: true
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: ${{ env.ProjectName }}-${{ matrix.rid }}
         path: ${{ env.ProjectName }}/bin/${{ env.Configuration }}/${{ env.NET_TFM }}/${{ matrix.rid }}/publish/
